@@ -1,0 +1,50 @@
+body,div,input,p { margin:0; padding:0; }
+
+body {
+	background: #fff;
+	font-family: "Droid Serif",Georgia,"Times New Roman",Times,serif;
+}
+
+.chart {
+	height: 400px;
+	width: 500px;
+	margin: 5px;
+	margin: 5px auto;
+	border: 3px solid #DDD;
+	border-radius: 3px;
+}
+
+.node { font-size: 11px; }
+
+.node.cell { 
+	cursor: pointer;
+	padding: 0 2px;
+	min-width: 65px;
+	text-align: center;
+	height: 30px;
+	border: 2px solid #E8E8E3; 
+	border-radius: 2px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.5);
+	background: #fff; 
+}
+
+.node.insert {
+	margin: 7px 0px;
+	border: 0px;
+	box-shadow: 0px 0px 0px;
+}
+
+.buttons {
+	border: 3px solid #DDD;
+	border-radius: 3px;
+	width: 50px;
+	margin: 0 auto;
+	padding: 8px 225px;
+}
+
+button {
+	border: 0;
+	margin: 0 0px;
+	padding: 0;
+	background: transparent;
+}
