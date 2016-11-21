@@ -2,9 +2,7 @@ var chart_config = {
 	chart: {
 		container: "#OrganiseChart-big-company",
 		levelSeparation: 20,
-
 		rootOrientation: "WEST",
-
 		connectors: {
 			type: "curve",
 			style: {
@@ -16,38 +14,10 @@ var chart_config = {
 			HTMLclass: "cell"
 		}
 	},
-
 	nodeStructure: {
 		text: { name: "" },
 		pseudo: "true",
-		children: [
-			{
-			text: { name: "main" },
-			children: [
-				{
-				text: { name: "work" },
-				children: [
-					{ text: { name: "hard" } },
-					{ text: { name: "simple" } }
-				]
-				},
-				{ text: { name: "education" } }
-			]
-			},
-			{
-			text: { name: "secondary" },
-			children: [
-				{
-				text: { name: "additional" },
-				children: [
-					{ text: { name: "overview" } },
-					{ text: { name: "optimization" } }
-				]
-				},
-				{ text: { name: "distractions" } }
-			]				
-			}
-		]
+		children: JSON.parse(decodeURIComponent(location.search.split('tree=')[1]))
 	}
 };
 
@@ -59,7 +29,7 @@ function innerHTML(node, child) {
 	var haveCreate = node.children[node.children.length - 1].text ? 0 : 1;
 	var lastIndex = node.children.length - 1 - haveCreate;
 	return "<input type=input value=" + child.text.value + " name=\"" + child.text.name + "\"size=10 style=\"text-align:center;border:0\" onchange=changeText(this)></input><p>"
-		+ genImage(child.text.name, "remove2.png", !node.text.name && !(!node.children[0].children && !node.children[1].children && !node.children[2].text), "remove")
+		+ genImage(child.text.name, "remove2.png", !node.text.name && !(!node.children[0].children && !node.children[1].children && !node.children[2].text), "removeNode")
 		+ genImage(child.text.name, "down.png", node.children.indexOf(child) < lastIndex, "down")
 		+ genImage(child.text.name, "up.png", node.children.indexOf(child) > 0, "up")
 		+ genImage(child.text.name, "union.png", !node.text.name && node.children.length > 2 + haveCreate && node.children.indexOf(child) < lastIndex, "union")
@@ -88,6 +58,17 @@ function init(node) {
 init(chart_config.nodeStructure);
 if (leavesCount < 6) {
 	addCreate(chart_config.nodeStructure);
+}
+
+function clear(node) {
+	if (node.children) {
+		for(var i = 0; i < node.children.length; i++) {
+			var child = node.children[i];
+			child.innerHTML = null;
+			child.parent = null;
+			clear(child);
+		}
+	}
 }
 
 function addCreate(node) {
@@ -131,7 +112,7 @@ function changeText(input) {
 	node.text.value = input.value;
 }
 
-function remove(name) {
+function removeNode(name) {
 	var node = byName(chart_config.nodeStructure, name);
 	var index = node.parent.children.indexOf(node);
 	if (node.children) {

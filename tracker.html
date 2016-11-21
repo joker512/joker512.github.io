@@ -33,7 +33,9 @@
             });
             $("#b-submit").click(function() {
                 console.log("Submit");
-                var location = "pebblejs://close#" + encodeURIComponent(JSON.stringify(saveOptions()));
+		var rootNode = chart_config.nodeStructure;
+		clear(rootNode);
+                var location = "pebblejs://close#" + encodeURIComponent(JSON.stringify(rootNode.children));
                 console.log(location);
                 document.location = location;
             });
