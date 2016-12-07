@@ -25,17 +25,30 @@ function genImage(name, image, visibility, action) {
 	return "<img id=\"" + name + action + "\" style=\"display:" + (visibility ? "block" : "none") + "\" src=\"" + image + "\" onclick=" + action + "(\"" + name + "\")>";
 }
 
+function genPrioritySelect(node) {
+	var priorityHtml = "";
+	if (node.text.priority != null) {
+		priorityHtml = "<select name=\"" + node.text.name + "\" onchange=changePriority(this)>";
+		for(var i = 1; i <= 6; i++) {
+			if (i != node.text.priority)
+				priorityHtml += "<option>" + i + "</option>";
+			else
+				priorityHtml += "<option selected>" + i + "</option>";
+		}
+		priorityHtml += "</select>";
+	}
+	return priorityHtml;
+}
+
 function innerHTML(node, child) {
 	var haveCreate = node.children[node.children.length - 1].text ? 0 : 1;
 	var lastIndex = node.children.length - 1 - haveCreate;
-	var priorityHtml = child.text.priority != null ? "<input class=\"numb\" type=\"number\" name=\"" + child.text.name + "\" min=1 max=6 size=1 value=" + child.text.priority + " onchange=changePriority(this)/>" : "";
-
 	return "<input type=input value=" + child.text.value + " name=\"" + child.text.name + "\"size=10 style=\"text-align:center;border:0\" onchange=changeText(this)></input><p>"
 		+ genImage(child.text.name, "remove2.png", !node.text.name && !(!node.children[0].children && !node.children[1].children && !node.children[2].text), "removeNode")
 		+ genImage(child.text.name, "down.png", node.children.indexOf(child) < lastIndex, "down")
 		+ genImage(child.text.name, "up.png", node.children.indexOf(child) > 0, "up")
 		+ genImage(child.text.name, "union.png", !node.text.name && node.children.length > 2 + haveCreate && node.children.indexOf(child) < lastIndex, "union")
-		+ priorityHtml
+		+ genPrioritySelect(child)
 		+ "</p>"
 }
 
@@ -117,7 +130,7 @@ function changeText(input) {
 
 function changePriority(input) {
 	var node = byName(chart_config.nodeStructure, input.name);
-	node.text.priority = input.value;
+	node.text.priority = parseInt(input.value);
 }
 
 function removeNode(name) {
