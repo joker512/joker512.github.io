@@ -22,17 +22,20 @@ var chart_config = {
 };
 
 function genImage(name, image, visibility, action) {
-	return "<img id=\"" + name + action + "\" style=\"visibility:" + (visibility ? "visible" : "hidden") + "\" src=\"" + image + "\" onclick=" + action + "(\"" + name + "\")>";
+	return "<img id=\"" + name + action + "\" style=\"display:" + (visibility ? "block" : "none") + "\" src=\"" + image + "\" onclick=" + action + "(\"" + name + "\")>";
 }
 
 function innerHTML(node, child) {
 	var haveCreate = node.children[node.children.length - 1].text ? 0 : 1;
 	var lastIndex = node.children.length - 1 - haveCreate;
+	var priorityHtml = child.text.priority != null ? "<input class=\"numb\" type=\"number\" name=\"" + child.text.name + "\" min=1 max=6 size=1 value=" + child.text.priority + " onchange=changePriority(this)/>" : "";
+
 	return "<input type=input value=" + child.text.value + " name=\"" + child.text.name + "\"size=10 style=\"text-align:center;border:0\" onchange=changeText(this)></input><p>"
 		+ genImage(child.text.name, "remove2.png", !node.text.name && !(!node.children[0].children && !node.children[1].children && !node.children[2].text), "removeNode")
 		+ genImage(child.text.name, "down.png", node.children.indexOf(child) < lastIndex, "down")
 		+ genImage(child.text.name, "up.png", node.children.indexOf(child) > 0, "up")
 		+ genImage(child.text.name, "union.png", !node.text.name && node.children.length > 2 + haveCreate && node.children.indexOf(child) < lastIndex, "union")
+		+ priorityHtml
 		+ "</p>"
 }
 
@@ -64,8 +67,8 @@ function clear(node) {
 	if (node.children) {
 		for(var i = 0; i < node.children.length; i++) {
 			var child = node.children[i];
-			child.innerHTML = null;
-			child.parent = null;
+			delete child['innerHTML'];
+			delete child['parent'];
 			clear(child);
 		}
 	}
@@ -110,6 +113,11 @@ function changeText(input) {
 	var node = byName(chart_config.nodeStructure, input.name);
 	input.name = input.value;
 	node.text.value = input.value;
+}
+
+function changePriority(input) {
+	var node = byName(chart_config.nodeStructure, input.name);
+	node.text.priority = input.value;
 }
 
 function removeNode(name) {
