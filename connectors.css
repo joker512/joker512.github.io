@@ -1,27 +1,20 @@
 body,div,input,p { margin:0; padding:0; }
 
-body {
-	background: #fff;
-	font-family: "Droid Serif",Georgia,"Times New Roman",Times,serif;
-}
-
 .chart {
-	height: 400px;
-	width: 500px;
-	margin: 5px;
-	margin: 5px auto;
+	height: 547px;
+	width: 364px;
+	margin: 4px auto;
 	border: 3px solid #DDD;
-	border-radius: 3px;
+	border-radius: 6px;
 }
 
-.node { font-size: 11px; }
-
-.node.cell { 
+.node.cell {
+	font-size: 11px;
 	cursor: pointer;
 	padding: 0 2px;
 	min-width: 65px;
 	text-align: center;
-	height: 30px;
+	height: 35px;
 	border: 2px solid #E8E8E3; 
 	border-radius: 2px;
 	box-shadow: 1px 1px 1px rgba(0,0,0,.5);
@@ -34,14 +27,49 @@ body {
 	box-shadow: 0px 0px 0px;
 }
 
-.buttons {
-	border: 3px solid #DDD;
-	border-radius: 3px;
-	width: 50px;
-	margin: 0 auto;
-	padding: 8px 225px;
+.pictogram {
+	padding: 2px;
 }
 
-input[type=number] {
-	width: 2em;
+input[type=submit] {
+	padding-left: 22px;
+	width: 70px;
+	height: 25px;
+}
+
+input#b-cancel{
+	background: #eee url('exit.png') no-repeat center;
+	background-position: 4px;
+	float: left;
+}
+
+input#b-submit{
+	background: #eee url('save.png') no-repeat center 4px;
+	background-position: 4px;
+	float: right;
+}
+
+.buttons {
+	border: 3px solid #DDD;
+	border-radius: 6px;
+	width: 174px;
+	height: 25px;
+	margin: 0 auto;
+	padding: 4px 95px;
+}
+
+input[type=input] {
+	text-align: center;
+	border: 0;
+}
+
+select {
+	-webkit-appearance: none;
+	border: 2px solid #bbb;
+	text-indent: 0.01px;
+	text-overflow: '';
+	width: 15px;
+	padding: 0px;
+	margin-left: 2px;
+	text-indent: 2.5px;
 }

@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="treant-js/Treant.css">
     <link rel="stylesheet" href="connectors.css">
-    <title>AccuInfo 2.0.0 Configuration</title>
+    <title>Task Tracker Tree</title>
   </head>
 
   <body>
-    <div class="chart" id="OrganiseChart-big-company"> --@-- </div>
+    <div class="chart" id="taskTreeChart"> --@-- </div>
     <script src="treant-js/vendor/raphael.js"></script>
     <script src="treant-js/Treant.js"></script>
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
@@ -21,23 +21,23 @@
     </script>
 
     <div class="buttons">
-	<img src="exit.png" id="b-cancel" />
-	<img src="save.png" id="b-submit" />
+	<input type="submit" value="Submit" id="b-submit" />
+	<input type="submit" value="Exit" id="b-cancel" />
     </div>
     <script>
         $().ready(function() {
             $("#b-cancel").click(function() {
-                console.log("Cancel");
                 document.location = "pebblejs://close#";
             });
             $("#b-submit").click(function() {
-                console.log("Submit");
 		var rootNode = chart_config.nodeStructure;
 		clear(rootNode);
                 var location = "pebblejs://close#" + encodeURIComponent(JSON.stringify(rootNode.children));
                 console.log(location);
                 document.location = location;
             });
+            $(".ui-loader").remove();
+            $(".ui-btn-inner").remove();
         });
     </script>
   </body>

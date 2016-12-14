@@ -1,6 +1,6 @@
 var chart_config = {
 	chart: {
-		container: "#OrganiseChart-big-company",
+		container: "#taskTreeChart",
 		levelSeparation: 20,
 		rootOrientation: "WEST",
 		connectors: {
@@ -22,7 +22,7 @@ var chart_config = {
 };
 
 function genImage(name, image, visibility, action) {
-	return "<img id=\"" + name + action + "\" style=\"display:" + (visibility ? "block" : "none") + "\" src=\"" + image + "\" onclick=" + action + "(\"" + name + "\")>";
+	return "<img class=\"pictogram\" id=\"" + name + action + "\" style=\"display:" + (visibility ? "block" : "none") + "\" src=\"" + image + "\" onclick=" + action + "(\"" + name + "\")>";
 }
 
 function genPrioritySelect(node) {
@@ -43,7 +43,7 @@ function genPrioritySelect(node) {
 function innerHTML(node, child) {
 	var haveCreate = node.children[node.children.length - 1].text ? 0 : 1;
 	var lastIndex = node.children.length - 1 - haveCreate;
-	return "<input type=input value=" + child.text.value + " name=\"" + child.text.name + "\"size=10 style=\"text-align:center;border:0\" onchange=changeText(this)></input><p>"
+	return "<input type=input value=" + child.text.value + " name=\"" + child.text.name + "\" maxlength=" + (child.children ? 8 : 12) + " size=10 onchange=changeText(this)></input><p>"
 		+ genImage(child.text.name, "remove2.png", !node.text.name && !(!node.children[0].children && !node.children[1].children && !node.children[2].text), "removeNode")
 		+ genImage(child.text.name, "down.png", node.children.indexOf(child) < lastIndex, "down")
 		+ genImage(child.text.name, "up.png", node.children.indexOf(child) > 0, "up")
@@ -52,8 +52,6 @@ function innerHTML(node, child) {
 		+ "</p>"
 }
 
-var leavesCount = 0;
-var itemCounter = 0;
 function init(node) {
 	if (node.children) {
 		for(var i = 0; i < node.children.length; i++) {
@@ -70,10 +68,6 @@ function init(node) {
 	else {
 		leavesCount++;
 	}
-}
-init(chart_config.nodeStructure);
-if (leavesCount < 6) {
-	addCreate(chart_config.nodeStructure);
 }
 
 function clear(node) {
@@ -98,7 +92,7 @@ function addCreate(node) {
 function create() {
 	var node = chart_config.nodeStructure;
 	var newNode = {
-		text: { name: "work" + itemCounter++ }
+		text: { name: "work" + itemCounter++, priority: 1 }
 	};
 	node.children.splice(node.children.length - 1, 1, newNode);
 	x.destroy();
@@ -189,3 +183,11 @@ function move(name, down) {
 	init(chart_config.nodeStructure);
 	x = new Treant(chart_config);
 }
+
+var leavesCount = 0;
+var itemCounter = 0;
+init(chart_config.nodeStructure);
+if (leavesCount < 6) {
+	addCreate(chart_config.nodeStructure);
+}
+
