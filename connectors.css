@@ -1,52 +1,32 @@
-body,div,input,p { margin:0; padding:0; }
+body,input,p,select { margin:0; padding:0; }
 
 .chart {
 	height: 547px;
 	width: 364px;
 	margin: 4px auto;
-	border: 3px solid #DDD;
+	border: 3px solid #ddd;
 	border-radius: 6px;
 }
 
 .node.cell {
 	font-size: 11px;
-	cursor: pointer;
 	padding: 0 2px;
 	min-width: 65px;
-	text-align: center;
 	height: 35px;
-	border: 2px solid #E8E8E3; 
+	text-align: center;
+	border: 2px solid #dddddd; 
 	border-radius: 2px;
-	box-shadow: 1px 1px 1px rgba(0,0,0,.5);
-	background: #fff; 
 }
 
 .node.insert {
-	margin: 7px 0px;
-	border: 0px;
-	box-shadow: 0px 0px 0px;
+	border: 0;
+	margin-top: 10px;
+	margin-left: -1px;
 }
 
-.pictogram {
-	padding: 2px;
-}
-
-input[type=submit] {
-	padding-left: 22px;
-	width: 70px;
-	height: 25px;
-}
-
-input#b-cancel{
-	background: #eee url('exit.png') no-repeat center;
-	background-position: 4px;
-	float: left;
-}
-
-input#b-submit{
-	background: #eee url('save.png') no-repeat center 4px;
-	background-position: 4px;
-	float: right;
+input[type=input] {
+	text-align: center;
+	border: 0;
 }
 
 .buttons {
@@ -58,18 +38,30 @@ input#b-submit{
 	padding: 4px 95px;
 }
 
-input[type=input] {
-	text-align: center;
-	border: 0;
+input[type=submit] {
+	padding-left: 22px;
+	width: 70px;
+	height: 25px;
+}
+
+input#cancel{
+	background: #eee url('exit.png') no-repeat center;
+	background-position: 4px;
+	float: left;
+}
+
+input#submit{
+	background: #eee url('save.png') no-repeat center;
+	background-position: 4px;
+	float: right;
 }
 
 select {
 	-webkit-appearance: none;
 	border: 2px solid #bbb;
-	text-indent: 0.01px;
-	text-overflow: '';
-	width: 15px;
-	padding: 0px;
+	border-radius: 4px;
+	width: 16px;
+	height: 18px;
 	margin-left: 2px;
-	text-indent: 2.5px;
+	text-indent: 3px;
 }

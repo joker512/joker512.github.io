@@ -2,8 +2,6 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="treant-js/Treant.css">
     <link rel="stylesheet" href="connectors.css">
     <title>Task Tracker Tree</title>
@@ -14,27 +12,24 @@
     <script src="treant-js/vendor/raphael.js"></script>
     <script src="treant-js/Treant.js"></script>
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script src="https://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
     <script src="connectors.js"></script>
     <script>
-        var x = new Treant( chart_config );
+        var x = new Treant(chartConfig);
     </script>
 
     <div class="buttons">
-	<input type="submit" value="Submit" id="b-submit" />
-	<input type="submit" value="Exit" id="b-cancel" />
+	<input type="submit" value="Submit" id="submit" />
+	<input type="submit" value="Exit" id="cancel" />
     </div>
     <script>
         $().ready(function() {
-            $("#b-cancel").click(function() {
+            $("#cancel").click(function() {
                 document.location = "pebblejs://close#";
             });
-            $("#b-submit").click(function() {
-		var rootNode = chart_config.nodeStructure;
-		clear(rootNode);
-                var location = "pebblejs://close#" + encodeURIComponent(JSON.stringify(rootNode.children));
-                console.log(location);
-                document.location = location;
+            $("#submit").click(function() {
+		var rootNode = chartConfig.nodeStructure;
+		clean(rootNode);
+                document.location = "pebblejs://close#" + encodeURIComponent(JSON.stringify(rootNode.children)); 
             });
             $(".ui-loader").remove();
             $(".ui-btn-inner").remove();
