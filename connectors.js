@@ -5,7 +5,7 @@ var DEFAULT_PRIORITY = 1;
 
 function btnImageHTML(name, image, visibility, action) {
 	return "<img =\"" + name + action + "\" style=\"display:" + (visibility ? "block" : "none")
-		+ ";padding:2px\" src=\"" + image + "\" onclick=" + action + "(\"" + name + "\")>";
+		+ ";padding:2px 4px\" src=\"" + image + "\" onclick=" + action + "(\"" + name + "\")>";
 }
 
 function prioritySelectHTML(node) {
