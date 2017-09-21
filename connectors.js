@@ -23,6 +23,13 @@ function prioritySelectHTML(node) {
 	return priorityHtml;
 }
 
+function totalInputHTML(total, accTotal) {
+	return "<div><label>Total</label></div>" +
+	       "<div><input type=number id=total value=" + total + " onchange=totalChanged(this) /><div>" +
+	       "<div><label>Accum</label><div>" +
+	       "<div><input type=number id=accTotal value=" + accTotal + " onchange=totalChanged(this) /></div>";
+}
+
 function nodeHTML(root, child) {
 	var rName = root.text.name;
 	var cName = child.text.name;
@@ -67,12 +74,15 @@ function init(node) {
 		leavesCount++;
 	}
 
-	if (node.text.name == "" && !hasInsertNode && leavesCount < MAX_LEAVES) {
-		var createNode = {
-			innerHTML: "<img src=\"create.png\" onclick=createClick()>",
-			HTMLclass: "insert"
-		};
-		node.children.splice(node.children.length, 0, createNode);
+	if (node.text.name == "") {
+		node.innerHTML = totalInputHTML(node.text.total, node.text.accTotal);
+		if (!hasInsertNode && leavesCount < MAX_LEAVES) {
+			var createNode = {
+				innerHTML: "<img src=\"create.png\" onclick=createClick()>",
+				HTMLclass: "insert"
+			};
+			node.children.splice(node.children.length, 0, createNode);
+		}
 	}
 }
 
@@ -92,11 +102,11 @@ function clean(node) {
 }
 
 function rebuildTree() {
-	x.destroy();
+	treant.destroy();
 	leavesCount = 0;
 	hasInsertNode = false;
 	init(chartConfig.nodeStructure);
-	x = new Treant(chartConfig);
+	treant = new Treant(chartConfig);
 }
 
 function findNodeByName(node, name) {
@@ -123,6 +133,27 @@ function textChanged(input) {
 function priorityChanged(input) {
 	var node = findNodeByName(chartConfig.nodeStructure, input.name);
 	node.text.priority = parseInt(input.value);
+}
+
+function totalChanged(input) {
+	var isAccTotal = input.id == "accTotal";
+	if (!input.value) {
+		input.value = isAccTotal ? chartConfig.nodeStructure.text.accTotal : chartConfig.nodeStructure.text.total;
+	}
+	else if (isAccTotal) {
+		if (input.value < 8)
+			input.value = 8;
+		if (input.value > 500)
+			input.value = 500;
+		chartConfig.nodeStructure.text.accTotal = input.value;
+	}
+	else {
+		if (input.value < 2)
+			input.value = 2;
+		if (input.value > 90)
+			input.value = 90;
+		chartConfig.nodeStructure.text.total = input.value;
+	}
 }
 
 function createClick() {
@@ -187,6 +218,11 @@ function downClick(name) {
 	return moveNode(name, true);
 }
 
+function getUriParamByName(name) {
+    var match = new RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1]);
+}
+
 var leavesCount = 0;
 var itemCounter = 0;
 var hasInsertNode = false;
@@ -202,10 +238,11 @@ var chartConfig = {
 		node: { HTMLclass: "cell" }
 	},
 	nodeStructure: {
-		text: { name: "" },
-		pseudo: "true",
-		children: JSON.parse(decodeURIComponent(location.search.split('tree=')[1]))
+		text: { name: "", total: getUriParamByName("total"), accTotal: getUriParamByName("acctotal") },
+		HTMLclass: "root",
+		children: JSON.parse(getUriParamByName("tree"))
 	}
 };
 
 init(chartConfig.nodeStructure);
+var treant = new Treant(chartConfig);

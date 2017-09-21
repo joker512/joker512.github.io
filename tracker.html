@@ -13,9 +13,6 @@
     <script src="treant-js/Treant.js"></script>
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="connectors.js"></script>
-    <script>
-        var x = new Treant(chartConfig);
-    </script>
 
     <div class="buttons">
 	<input type="submit" value="Submit" id="submit" />
@@ -29,7 +26,7 @@
             $("#submit").click(function() {
 		var rootNode = chartConfig.nodeStructure;
 		clean(rootNode);
-                document.location = "pebblejs://close#" + encodeURIComponent(JSON.stringify(rootNode.children)); 
+                document.location = "pebblejs://close#" + encodeURIComponent(JSON.stringify([rootNode.children, rootNode.text.total, rootNode.text.accTotal]));
             });
             $(".ui-loader").remove();
             $(".ui-btn-inner").remove();
